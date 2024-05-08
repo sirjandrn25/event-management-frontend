@@ -22,6 +22,7 @@ interface CustomQueryListProps<TData> {
 interface CustomQueryListReturnProps<TData> {
   isLoading?: boolean;
   data: TData;
+  refetch: () => void;
 }
 const useQueryList = <TData>({
   endPoint,
@@ -29,7 +30,7 @@ const useQueryList = <TData>({
   method = "getAll",
   searchParams,
 }: UseQueryListProps): GetQueryListReturnProps<TData> => {
-  const { data, isLoading } = useCustomQueryList({
+  const { data, isLoading, refetch } = useCustomQueryList({
     queryFunction: async () => {
       const service = new ApiService(endPoint);
       // if (isLoggedIn)
@@ -42,7 +43,7 @@ const useQueryList = <TData>({
     extraQueryKey: [`get all ${endPoint}`, searchParams],
     // disableNetwork: !session?.data?.access_token,
   });
-  return { data: data as TData[], isLoading };
+  return { data: data as TData[], isLoading, refetch };
 };
 
 const useCustomQueryList = <TData>({
@@ -50,12 +51,12 @@ const useCustomQueryList = <TData>({
   extraQueryKey,
   disableNetwork,
 }: CustomQueryListProps<TData>): CustomQueryListReturnProps<TData> => {
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, refetch } = useQuery({
     queryKey: extraQueryKey,
     queryFn: queryFunction,
     enabled: !disableNetwork,
   });
-  return { data: data?.data as TData, isLoading };
+  return { data: data?.data as TData, isLoading, refetch };
 };
 
 export default useQueryList;

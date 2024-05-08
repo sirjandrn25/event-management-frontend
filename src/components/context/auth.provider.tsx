@@ -10,6 +10,7 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useState,
 } from "react";
@@ -89,6 +90,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setLocalSession(null);
     router.push("/login");
   }, [localSession?.accessToken, router, setSession]);
+  useEffect(() => {
+    if (!session) handleLogout();
+  }, [handleLogout, session]);
   const isAuthorId = useCallback(
     (userId: string) => userId === user?.id,
     [user?.id]

@@ -1,3 +1,4 @@
+"use client";
 import { cn } from "@/lib/utils";
 import {
   ArrowRight,
@@ -13,9 +14,12 @@ import {
   LogOut,
   LucideProps,
   Mail,
+  MessageCircleIcon,
   Pill,
   Rabbit,
+  Settings,
   TriangleAlert,
+  Users,
   X,
 } from "lucide-react";
 export const Icons = {
@@ -30,11 +34,14 @@ export const Icons = {
   circleUser: CircleUser,
   mail: Mail,
   x: X,
+  users: Users,
+  settings: Settings,
   logout: LogOut,
   eyeOff: EyeOff,
   eye: Eye,
   rabbit: Rabbit,
   dashboard: LayoutDashboard,
+  messageCircle: MessageCircleIcon,
   csvFile: (props: LucideProps) => (
     <svg
       fill="currentColor"

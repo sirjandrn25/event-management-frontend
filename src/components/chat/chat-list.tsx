@@ -11,6 +11,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 const ChatList = () => {
   const params = useParams();
+
   const { data: chats = [] } = useQueryList<any>({
     endPoint: "chats",
   });
