@@ -17,7 +17,7 @@ const ChatLayout = ({ children }: { children: ReactNode }) => {
                 className={buttonVariants({
                   size: "icon",
                   variant: "ghost",
-                  className: "h-fit",
+                  className: "bg-gray-200 ",
                 })}
                 href="/"
               >
