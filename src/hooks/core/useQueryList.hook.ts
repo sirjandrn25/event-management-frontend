@@ -8,6 +8,7 @@ interface UseQueryListProps {
   isLoggedIn?: boolean;
   method?: "getAll" | "search";
   searchParams?: DictionaryType;
+  disableNetwork?: boolean;
 }
 
 interface GetQueryListReturnProps<TData>
@@ -29,6 +30,7 @@ const useQueryList = <TData>({
   isLoggedIn = true,
   method = "getAll",
   searchParams,
+  disableNetwork,
 }: UseQueryListProps): GetQueryListReturnProps<TData> => {
   const { data, isLoading, refetch } = useCustomQueryList({
     queryFunction: async () => {
@@ -41,6 +43,7 @@ const useQueryList = <TData>({
       return await service.search(searchParams as any);
     },
     extraQueryKey: [`get all ${endPoint}`, searchParams],
+    disableNetwork,
     // disableNetwork: !session?.data?.access_token,
   });
   return { data: data as TData[], isLoading, refetch };
