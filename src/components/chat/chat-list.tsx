@@ -31,7 +31,7 @@ const ChatList = () => {
 
   return (
     <div className="flex-1 overflow-auto py-2">
-      <nav className="grid items-start px-4 text-sm font-medium">
+      <nav className="grid items-start  text-sm font-medium">
         {filteredChats.map((item) => (
           <ChatListItem
             isActive={item?.id === params?.id}
@@ -54,7 +54,7 @@ const ChatListItem = ({
   return (
     <Link
       className={cn(
-        "flex items-center  hover:text-blue-500 gap-3  border-b  px-3 py-2  transition-all    ",
+        "flex items-center w-full hover:text-blue-500 gap-3  border-b  px-3 py-2  transition-all    ",
         isActive && "border-blue-500 text-blue-500"
       )}
       href={`${chat?.id}`}
