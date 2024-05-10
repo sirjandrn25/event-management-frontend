@@ -29,7 +29,7 @@ export class ArrayUtils extends CommonUtils {
     return exist_elements?.length === array?.length;
   };
 
-  static removeDuplicates = (array: DictionaryType[], key: string) => {
+  static getUniqueArray = (array: DictionaryType[], key: string) => {
     const filterArrays: DictionaryType[] = [];
     array.forEach((element) => {
       if (

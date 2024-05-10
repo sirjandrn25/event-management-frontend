@@ -3,8 +3,9 @@ import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google";
 
 import ClientProvider from "@/components/layout/clientProvider";
+import { Toaster } from "@/components/ui/toaster";
 import { cn } from "@/lib/utils";
-
+import NextTopLoader from "nextjs-toploader";
 const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
@@ -28,7 +29,9 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
+        <NextTopLoader color={"blue"} />
         <ClientProvider>{children}</ClientProvider>
+        <Toaster />
       </body>
     </html>
   );

@@ -48,25 +48,16 @@ const ChatUsersSearch = ({
           data
             ?.filter((data: any) => !isAuthorId(data?.id))
             ?.map((user: any) => (
-              <div
-                key={user?.id}
-                className={cn(
-                  "grid rounded p-2 bg-muted hover:shadow-lg border cursor-pointer",
-                  {
-                    "cursor-wait": isSubmitting,
-                  }
-                )}
+              <UserChatCard
+                key={user.id}
+                user={user}
                 onClick={() =>
                   onSubmit({
                     user_ids: [user.id],
                   })
                 }
-              >
-                <div className="font-medium text-sm">{user?.name}</div>
-                <div className="font-medium text-xs  text-muted-foreground">
-                  {user?.email}
-                </div>
-              </div>
+                disabled={isSubmitting}
+              />
             ))}
         {isSubmitting && (
           <div className="text-center text-muted-foreground">Submitting...</div>
@@ -76,4 +67,31 @@ const ChatUsersSearch = ({
   );
 };
 
+export const UserChatCard = ({
+  user,
+  onClick,
+  disabled,
+}: {
+  user: DictionaryType;
+  onClick: () => void;
+  disabled?: boolean;
+}) => {
+  return (
+    <div
+      key={user?.id}
+      className={cn(
+        "grid rounded p-2 bg-muted hover:shadow-lg border cursor-pointer",
+        {
+          "cursor-wait": disabled,
+        }
+      )}
+      onClick={() => onClick()}
+    >
+      <div className="font-medium text-sm">{user?.name}</div>
+      <div className="font-medium text-xs  text-muted-foreground">
+        {user?.email}
+      </div>
+    </div>
+  );
+};
 export default ChatUsersSearch;

@@ -8,7 +8,7 @@ import { ReactNode } from "react";
 const ChatLayout = ({ children }: { children: ReactNode }) => {
   return (
     <ChatProvider>
-      <div className="grid h-screen w-full lg:grid-cols-[280px_1fr]">
+      <div className="grid h-screen w-full lg:grid-cols-[300px_1fr]">
         <div className="hidden border-r bg-muted lg:block ">
           <div className="grid grid-cols-5 h-screen">
             <ChatMenu />

@@ -7,15 +7,11 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { forwardRef, ReactNode, useImperativeHandle, useState } from "react";
+import { forwardRef, useImperativeHandle, useState } from "react";
 import { Separator } from "./separator";
+import { BaseDialogProps } from "./types/dialog.type";
 
-interface SlidePaneProps {
-  title: string;
-  description?: string;
-  trigger: ReactNode;
-  children: ReactNode;
-}
+interface SlidePaneProps extends BaseDialogProps {}
 export const SlidePane = forwardRef(
   ({ title, description, trigger, children }: SlidePaneProps, ref) => {
     const [open, setOpen] = useState(false);

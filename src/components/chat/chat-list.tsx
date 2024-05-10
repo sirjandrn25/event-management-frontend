@@ -33,7 +33,6 @@ const ChatListItem = ({
   chat: DictionaryType;
   isActive?: boolean;
 }) => {
-  console.log({ chat });
   return (
     <Link
       className={cn(
