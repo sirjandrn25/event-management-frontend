@@ -1,5 +1,5 @@
 export interface BaseDialogProps {
-  title: string;
+  title?: string;
   description?: string;
   trigger: React.ReactNode;
   children: React.ReactNode;

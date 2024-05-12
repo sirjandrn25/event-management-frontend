@@ -78,6 +78,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   );
 
   const handleLogout = useCallback(async () => {
+    router.push("/logout");
     if (localSession?.accessToken) {
       try {
         const service = new ApiService("auth/logout");

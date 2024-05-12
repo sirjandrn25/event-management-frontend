@@ -1,23 +1,14 @@
 "use client";
-import ChatList from "@/components/chat/chat-list";
-import ChatListHeader from "@/components/chat/chat-list-header";
-import ChatMenu from "@/components/chat/chat-menu";
+import ChatMenuContainer from "@/components/chat/chat-menu-container";
 import ChatProvider from "@/components/context/chat.provider";
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 
 const ChatLayout = ({ children }: { children: ReactNode }) => {
+  const [open, setOpen] = useState<boolean>(false);
   return (
     <ChatProvider>
-      <div className="grid h-screen w-full lg:grid-cols-[300px_1fr]">
-        <div className="hidden border-r bg-muted lg:block ">
-          <div className="grid grid-cols-5 h-screen">
-            <ChatMenu />
-            <div className="flex h-full  col-span-4 max-h-screen  flex-col gap-2">
-              <ChatListHeader />
-              <ChatList />
-            </div>
-          </div>
-        </div>
+      <div className="grid h-screen w-full relative lg:grid-cols-[300px_1fr]">
+        <ChatMenuContainer />
         {children}
       </div>
     </ChatProvider>

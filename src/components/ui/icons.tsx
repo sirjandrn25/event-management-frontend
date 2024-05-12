@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 import {
   ArrowRight,
   CircleUser,
+  CircleUserRound,
   CloudUpload,
   EarthLock,
   Eye,
@@ -34,6 +35,7 @@ export const Icons = {
   circleUser: CircleUser,
   mail: Mail,
   x: X,
+  circlePerson: CircleUserRound,
   users: Users,
   settings: Settings,
   logout: LogOut,

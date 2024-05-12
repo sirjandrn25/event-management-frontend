@@ -22,20 +22,23 @@ export const ModalDialog = forwardRef(
         onClose: () => setOpen(false),
       };
     });
+    const isHeaderVisible = !!title;
     return (
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
           {trigger ?? <Button variant="outline">Open</Button>}
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>{title}</DialogTitle>
+          {isHeaderVisible && (
+            <DialogHeader>
+              {!!title && <DialogTitle>{title}</DialogTitle>}
 
-            {description && (
-              <DialogDescription>{description}</DialogDescription>
-            )}
-          </DialogHeader>
-          <Separator className="my-2" />
+              {description && (
+                <DialogDescription>{description}</DialogDescription>
+              )}
+            </DialogHeader>
+          )}
+          {isHeaderVisible && <Separator className="my-2" />}
           {children}
         </DialogContent>
       </Dialog>
