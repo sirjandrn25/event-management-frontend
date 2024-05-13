@@ -82,7 +82,6 @@ export const MultiSelectBox = React.forwardRef<
       defaultValue: defaultValue,
       onChange: onHandleChange,
     });
-    console.log({ value });
 
     const onHandleOptionChange = React.useCallback(
       (option: SelectBoxOptionType, isSelected: boolean) => {

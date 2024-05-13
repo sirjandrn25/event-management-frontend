@@ -22,14 +22,13 @@ export function useUncontrolled<T>({
 }: UseUncontrolledInput<T>): [
   T,
   (value: T, ...payload: any[]) => void,
-  boolean,
+  boolean
 ] {
   const [uncontrolledValue, setUncontrolledValue] = useState(
-    defaultValue !== undefined ? defaultValue : finalValue,
+    defaultValue !== undefined ? defaultValue : finalValue
   );
 
   const handleUncontrolledChange = (val: T, ...payload: any[]) => {
-    console.log("val", val);
     setUncontrolledValue(val);
     onChange?.(val, ...payload);
   };

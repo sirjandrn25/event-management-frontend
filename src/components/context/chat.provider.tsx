@@ -37,7 +37,6 @@ const ChatProvider = ({ children }: { children: ReactNode }) => {
         .filter((chat) => !!chat?.user),
     [chats, isAuthorId]
   );
-  console.log({ filteredChats });
 
   const value = useMemo(
     () => ({

@@ -23,6 +23,7 @@ type AuthContextType = {
   onTokenHandle?: (data: UserSessionType) => void;
   handleLogout: () => void;
   isAuthorId: (userId: string) => boolean;
+  fetchUser?: () => void;
 };
 export const AuthContext = createContext<AuthContextType>({
   isLoggedIn: false,
@@ -57,7 +58,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     refetchInterval: 3 * 1000 * 60,
     enabled: !!localSession?.refreshToken,
   });
-  const { data: user, isFetching: isLoading } = useQuery({
+  const {
+    data: user,
+    isFetching: isLoading,
+    refetch: fetchUser,
+  } = useQuery({
     queryKey: ["user"],
     queryFn: async () => {
       const service = new ApiService("auth/me");
@@ -107,6 +112,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       isLoggedIn: !!localSession?.accessToken,
       isLoading,
       isAuthorId,
+      fetchUser,
     };
   }, [
     onTokenHandle,
@@ -115,6 +121,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     localSession?.accessToken,
     isLoading,
     isAuthorId,
+    fetchUser,
   ]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

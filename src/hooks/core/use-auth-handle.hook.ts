@@ -34,7 +34,6 @@ const useAuthHandle = () => {
       try {
         const service = new ApiService("auth/register");
         const response = await service.post(data);
-        console.log("response", response);
 
         router.push("/login");
       } catch (error: any) {}

@@ -1,12 +1,12 @@
 import { useUncontrolled } from "@/hooks/core/use-uncontrolled.hook";
+import { useMemo } from "react";
 import {
   Select,
-  SelectTrigger,
-  SelectValue,
   SelectContent,
   SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from "../select";
-import { useMemo } from "react";
 import { SelectInputProps, SelectValueType } from "./select-input.type";
 
 const SelectInput = ({
@@ -43,15 +43,6 @@ const SelectInput = ({
         ) : (
           displayPlaceholder
         )}
-        {/* {displayValue && (
-          <Icons.x
-            onClick={(e) => {
-              console.log("cross");
-              e.stopPropagation();
-            }}
-            className="z-[9999] ml-auto h-4 w-4 text-destructive opacity-80 hover:opacity-100"
-          />
-        )} */}
       </SelectTrigger>
       <SelectContent>
         {options.map((option) => (
