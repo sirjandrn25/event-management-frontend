@@ -54,7 +54,7 @@ const useAuthHandle = () => {
         }
         onTokenHandle?.(response as UserSessionType);
         setLoading(null);
-        router.push("/");
+        router.push("/dashboard");
       } catch (error: any) {
         setError(error.response?.data?.message);
         setLoading(null);

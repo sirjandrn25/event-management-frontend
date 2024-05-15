@@ -4,6 +4,7 @@ import {
   ArrowRight,
   CircleUser,
   CircleUserRound,
+  Clock,
   CloudUpload,
   EarthLock,
   Eye,
@@ -16,6 +17,7 @@ import {
   LucideProps,
   Mail,
   MessageCircleIcon,
+  Pencil,
   Pill,
   Rabbit,
   Settings,
@@ -46,6 +48,8 @@ export const Icons = {
   rabbit: Rabbit,
   dashboard: LayoutDashboard,
   messageCircle: MessageCircleIcon,
+  clock: Clock,
+  pencil: Pencil,
   csvFile: (props: LucideProps) => (
     <svg
       fill="currentColor"

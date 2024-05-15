@@ -40,6 +40,7 @@ export class ApiService<TData> {
 
   constructor(entitySlug: string, config?: { isLoggedIn?: boolean }) {
     this.endPoint = `${serverBaseUrl}/${entitySlug}`;
+
     this.headers.Authorization =
       config?.isLoggedIn !== false ? getAccessToken() : undefined;
   }
@@ -80,9 +81,18 @@ export class ApiService<TData> {
   async put(
     data: Omit<TData, "id" | "created_at" | "updated_at">
   ): Promise<APIResponse<TData>> {
-    return await axios.put(this.endPoint, data, this.headers);
+    return await axios({
+      method: "put",
+      url: `${this.endPoint}`,
+      data,
+      headers: this.headers,
+    });
   }
   async delete(id: string): Promise<void> {
-    return await axios.delete(`${this.endPoint}/${id}`, this.headers);
+    return await axios({
+      method: "delete",
+      url: `${this.endPoint}/${id}`,
+      headers: this.headers,
+    });
   }
 }

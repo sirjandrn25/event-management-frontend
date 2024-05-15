@@ -6,8 +6,12 @@ export default class LocalStorageUtils {
   }
 
   static getLocalState(key: string) {
-    const data: any = localStorage.getItem(key);
-    return JSON.parse(data);
+    try {
+      const data: any = localStorage.getItem(key);
+      return JSON.parse(data);
+    } catch (er) {
+      return;
+    }
   }
 
   static removeLocalState(key: string) {

@@ -1,5 +1,5 @@
-import { Button } from "@/components/ui/button";
-import { forwardRef, useImperativeHandle, useState } from "react";
+import { useUncontrolled } from "@/hooks/core/use-uncontrolled.hook";
+import { forwardRef, useImperativeHandle } from "react";
 import {
   Dialog,
   DialogContent,
@@ -13,8 +13,22 @@ import { BaseDialogProps } from "./types/dialog.type";
 
 interface ModalDialogProps extends BaseDialogProps {}
 export const ModalDialog = forwardRef(
-  ({ title, description, trigger, children }: ModalDialogProps, ref) => {
-    const [open, setOpen] = useState(false);
+  (
+    {
+      title,
+      description,
+      trigger,
+      children,
+      onToggle,
+      rightComponent,
+      open: openProps,
+    }: ModalDialogProps,
+    ref
+  ) => {
+    const [open, setOpen] = useUncontrolled({
+      value: openProps,
+      onChange: onToggle,
+    });
 
     useImperativeHandle(ref, () => {
       return {
@@ -25,17 +39,20 @@ export const ModalDialog = forwardRef(
     const isHeaderVisible = !!title;
     return (
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogTrigger asChild>
-          {trigger ?? <Button variant="outline">Open</Button>}
-        </DialogTrigger>
+        {!!trigger && <DialogTrigger asChild>{trigger}</DialogTrigger>}
         <DialogContent className="sm:max-w-[425px]">
           {isHeaderVisible && (
             <DialogHeader>
-              {!!title && <DialogTitle>{title}</DialogTitle>}
+              <div className="flex justify-between items-center">
+                <div className="grid justify-start gap-2">
+                  {!!title && <DialogTitle>{title}</DialogTitle>}
 
-              {description && (
-                <DialogDescription>{description}</DialogDescription>
-              )}
+                  {description && (
+                    <DialogDescription>{description}</DialogDescription>
+                  )}
+                </div>
+                {rightComponent ?? <div />}
+              </div>
             </DialogHeader>
           )}
           {isHeaderVisible && <Separator className="my-2" />}

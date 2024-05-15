@@ -1,8 +1,7 @@
 import { ControllerRenderProps, FieldValues } from "react-hook-form";
 import * as z from "zod";
+import { SelectInputOptions } from "../ui/selectInput/select-input.type";
 import { INPUT_COMPONENTS } from "./config";
-import { SelectInputOptions, SelectValueType } from "@/types/select-input.type";
-import { ReactNode } from "react";
 
 export type FieldConfigItem = {
   description?: React.ReactNode;
@@ -52,7 +51,7 @@ export type ValueDependency<SchemaType extends z.infer<z.ZodObject<any, any>>> =
 export type EnumValues = readonly [string, ...string[]];
 
 export type OptionsDependency<
-  SchemaType extends z.infer<z.ZodObject<any, any>>,
+  SchemaType extends z.infer<z.ZodObject<any, any>>
 > = BaseDependency<SchemaType> & {
   type: DependencyType.SETS_OPTIONS;
 
