@@ -3,10 +3,13 @@
 import EventCreateEditForm from "@/components/forms/event/event-create-edit.form";
 import { Button } from "@/components/ui/button";
 import { SelectBox } from "@/components/ui/selectBox/select-box";
+import { addMonths } from "date-fns";
 import moment from "moment";
 import { useState } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
+import { DatePicker } from "../ui/date-picker";
+import { Icons } from "../ui/icons";
 import CustomEvent from "./custom-event";
 import { useSchedulerContext } from "./scheduler-provider";
 
@@ -14,7 +17,7 @@ const localizer = momentLocalizer(moment);
 
 const Scheduler = () => {
   const [selectedTimezone, setSelectedTimezone] = useState("UTC");
-  const [currentView, setCurrentView] = useState("month");
+  const [currentView, setCurrentView] = useState("day");
   const [currentDate, setCurrentDate] = useState(new Date());
   const [openModal, setOpenModal] = useState<boolean>();
   const [eventDate, setEventDate] = useState<any>({});
@@ -65,9 +68,19 @@ const Scheduler = () => {
         }}
       />
       <div style={{ height: 500 }}>
+        <div className="max-w-[200px]">
+          <DatePicker
+            setDate={(value) => setCurrentDate(value ?? new Date())}
+            date={currentDate}
+          />
+        </div>
         <Calendar
           localizer={localizer}
-          events={events}
+          events={events.map((event) => ({
+            ...event,
+            start: new Date(event.start),
+            end: new Date(event.end),
+          }))}
           startAccessor="start"
           endAccessor="end"
           date={currentDate}
@@ -86,17 +99,17 @@ const Scheduler = () => {
                   </Button>
                   <Button
                     variant={"outline"}
-                    size={"sm"}
-                    onClick={() => handleNavigate(currentDate, "prev")}
+                    size={"icon"}
+                    onClick={() => setCurrentDate(addMonths(currentDate, -1))}
                   >
-                    Back
+                    <Icons.chevronLeft className="h-4 w-4" />
                   </Button>
                   <Button
                     variant={"outline"}
-                    size={"sm"}
-                    onClick={() => handleNavigate(currentDate, "next")}
+                    size={"icon"}
+                    onClick={() => setCurrentDate(addMonths(currentDate, 1))}
                   >
-                    Next
+                    <Icons.chevronRight className="h-4 w-4" />
                   </Button>
                 </div>
                 <SelectBox

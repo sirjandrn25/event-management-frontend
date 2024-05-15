@@ -2,6 +2,8 @@
 import { cn } from "@/lib/utils";
 import {
   ArrowRight,
+  ChevronsLeft,
+  ChevronsRight,
   CircleUser,
   CircleUserRound,
   Clock,
@@ -50,6 +52,8 @@ export const Icons = {
   messageCircle: MessageCircleIcon,
   clock: Clock,
   pencil: Pencil,
+  chevronLeft: ChevronsLeft,
+  chevronRight: ChevronsRight,
   csvFile: (props: LucideProps) => (
     <svg
       fill="currentColor"

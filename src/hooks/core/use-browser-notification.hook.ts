@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 
-const useBrowserNotificationHook = () => {
+const useBrowserNotification = () => {
   const [permission, setPermission] = useState("default");
 
   useEffect(() => {
@@ -14,6 +14,7 @@ const useBrowserNotificationHook = () => {
   }, []);
   const onSendNotification = useCallback(
     (message: string) => {
+      console.log("permission", permission, permission === "granted");
       if (permission === "granted") {
         new Notification("Calendar Notifications", {
           icon: "https://cdn-icons-png.flaticon.com/512/733/733585.png",
@@ -30,4 +31,4 @@ const useBrowserNotificationHook = () => {
   };
 };
 
-export default useBrowserNotificationHook;
+export default useBrowserNotification;

@@ -1,8 +1,6 @@
 "use client";
 import {} from "date-fns";
 import Link from "next/link";
-import { useCallback, useEffect, useState } from "react";
-import { Button } from "../ui/button";
 import { UserNav } from "./user-nav";
 
 export default function Header() {
@@ -23,41 +21,9 @@ export default function Header() {
 
         <div className="flex items-center gap-2">
           <UserNav />
-          <BrowserNotification />
           {/* <ThemeToggle /> */}
         </div>
       </nav>
     </div>
   );
 }
-
-const BrowserNotification = () => {
-  const [permission, setPermission] = useState("default");
-
-  useEffect(() => {
-    Notification.requestPermission()
-      .then((permission) => {
-        setPermission(permission);
-      })
-      .catch((error) => {
-        console.log("error: " + error);
-      });
-  }, []);
-  const showNotification = useCallback(() => {
-    if (permission === "granted") {
-      new Notification("Hello from React!");
-    } else {
-      alert("Please grant notification permission to receive notifications.");
-    }
-  }, [permission]);
-
-  useEffect(() => {
-    setTimeout(() => showNotification(), 5 * 1000);
-  }, [showNotification]);
-
-  return (
-    <div>
-      <Button onClick={showNotification}>Notifications</Button>
-    </div>
-  );
-};

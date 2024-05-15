@@ -50,6 +50,7 @@ const EventCreateEditForm = ({
         description: `${isEdit ? "Edit Event" : "Create event"} Successfully`,
       });
       callback?.();
+      setParticipates([]);
       setOpenModal?.(false);
     },
   });
