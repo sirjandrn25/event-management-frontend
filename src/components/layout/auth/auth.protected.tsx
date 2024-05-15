@@ -7,6 +7,7 @@ import RestrictedPage from "./restricted.page";
 
 const AuthProtected = ({ children }: { children: ReactNode }) => {
   const { isLoading, isLoggedIn } = useAuthContext();
+
   if (isLoading)
     return (
       <div className="h-screen w-screen flex items-center justify-center">
