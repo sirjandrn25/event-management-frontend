@@ -13,7 +13,8 @@ import { useAuthContext } from "../context/auth.provider";
 import { Icons } from "../ui/icons";
 
 export function UserNav() {
-  const { isLoggedIn, user, handleLogout } = useAuthContext();
+  const { isLoggedIn, user, handleLogout, isLoading } = useAuthContext();
+  if (isLoading) return <></>;
   if (isLoggedIn) {
     return (
       <DropdownMenu>
@@ -45,4 +46,5 @@ export function UserNav() {
       </DropdownMenu>
     );
   }
+  return <></>;
 }

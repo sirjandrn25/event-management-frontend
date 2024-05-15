@@ -1,5 +1,8 @@
 "use client";
+import {} from "date-fns";
 import Link from "next/link";
+import { useCallback, useEffect, useState } from "react";
+import { Button } from "../ui/button";
 import { UserNav } from "./user-nav";
 
 export default function Header() {
@@ -13,19 +16,6 @@ export default function Header() {
             className="flex items-center gap-1 text-purple-500"
           >
             <>
-              {" "}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="w-6 h-6 mr-2"
-              >
-                <path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3" />
-              </svg>
               <span className="text-xl font-bold ">Scheduler App</span>
             </>
           </Link>
@@ -33,9 +23,41 @@ export default function Header() {
 
         <div className="flex items-center gap-2">
           <UserNav />
+          <BrowserNotification />
           {/* <ThemeToggle /> */}
         </div>
       </nav>
     </div>
   );
 }
+
+const BrowserNotification = () => {
+  const [permission, setPermission] = useState("default");
+
+  useEffect(() => {
+    Notification.requestPermission()
+      .then((permission) => {
+        setPermission(permission);
+      })
+      .catch((error) => {
+        console.log("error: " + error);
+      });
+  }, []);
+  const showNotification = useCallback(() => {
+    if (permission === "granted") {
+      new Notification("Hello from React!");
+    } else {
+      alert("Please grant notification permission to receive notifications.");
+    }
+  }, [permission]);
+
+  useEffect(() => {
+    setTimeout(() => showNotification(), 5 * 1000);
+  }, [showNotification]);
+
+  return (
+    <div>
+      <Button onClick={showNotification}>Notifications</Button>
+    </div>
+  );
+};

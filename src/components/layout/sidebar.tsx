@@ -1,3 +1,4 @@
+"use client";
 import { navItems } from "@/constants/data";
 import { cn } from "@/lib/utils";
 import { DashboardNav } from "./dashboard-nav";
