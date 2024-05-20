@@ -43,6 +43,7 @@ export class ApiService<TData> {
 
     this.headers.Authorization =
       config?.isLoggedIn !== false ? getAccessToken() : undefined;
+    this.headers.allowHeaders = "*";
   }
 
   async getOne(): Promise<APIResponse<TData>> {
