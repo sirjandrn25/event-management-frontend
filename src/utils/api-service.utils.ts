@@ -13,10 +13,10 @@ export const getAuthorizationHeader = () => {
 };
 
 export const getClientHostName = () => {
-  const localhost = `http://localhost:8000`;
-  if (typeof window === "undefined") return localhost;
-  if (process.env.NODE_ENV === "development") return localhost;
-  return window?.location.hostname;
+  // const localhost = `http://localhost:8000`;
+  // if (typeof window === "undefined") return localhost;
+  // if (process.env.NODE_ENV === "development") return localhost;
+  return "http://54.242.165.66";
 };
 
 const apiRoute = `${getClientHostName()}/v1/api`;
