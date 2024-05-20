@@ -19,7 +19,9 @@ const useAuthHandle = () => {
 
   const onLoginByEmail = useCallback(
     async ({ email, password }: EmailLoginFormSchemaType) => {
-      const service = new ApiService("auth/login");
+      const service = new ApiService("auth/login", {
+        isLoggedIn: false,
+      });
       const response = await service.post({
         email,
         password,
