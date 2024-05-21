@@ -23,13 +23,20 @@ export const SchedulerProvider = ({ children }: { children: ReactNode }) => {
   const { onSendNotification } = useBrowserNotification();
   const { user } = useAuthContext();
   useEffect(() => {
+    if (!user?.id) return;
     socket.on(`scheduler-event`, (data) => {
-      const event = data?.data;
-      if (
-        event?.participates?.include(user?.email) ??
-        event?.user_id !== user?.id
-      )
-        return onSendNotification(`${data?.title} event received`);
+      const event = data;
+
+      if (!event) return;
+      try {
+        if (
+          event?.user_id === user?.id ||
+          event?.participates?.includes(user?.email)
+        )
+          return onSendNotification(`${data?.title} event received`);
+      } catch (error) {
+        console.log("error ", error);
+      }
     });
   }, [onSendNotification, user?.email, user?.id]);
   useEffect(() => {

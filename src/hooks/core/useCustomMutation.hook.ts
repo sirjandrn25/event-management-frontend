@@ -1,6 +1,5 @@
 import { APIResponse, ApiService } from "@/utils/api-service.utils";
 import { useMutation } from "@tanstack/react-query";
-import { useMemo } from "react";
 
 import { ZodTypeAny, z } from "zod";
 
@@ -17,7 +16,6 @@ interface UseCustomMutationPropsReturnType<TBody, TData> {
   isError?: boolean;
   asyncOnSubmit: (data: TBody) => Promise<APIResponse<TData>>;
   error?: Error | null;
-  service: any;
 }
 const useCustomMutation = <TData>({
   endPoint,
@@ -29,7 +27,6 @@ const useCustomMutation = <TData>({
   z.infer<typeof schema>,
   TData
 > => {
-  const service = useMemo(() => new ApiService<TData>(endPoint), [endPoint]);
   const {
     mutate: onSubmit,
     isPending,
@@ -38,6 +35,7 @@ const useCustomMutation = <TData>({
     mutateAsync: asyncOnSubmit,
   } = useMutation({
     mutationFn: async (data: z.infer<typeof schema>) => {
+      const service = new ApiService<TData>(endPoint);
       if ("post" === method) return await service.post(data);
       return await service.put(data);
     },
@@ -51,7 +49,6 @@ const useCustomMutation = <TData>({
     isError,
     asyncOnSubmit,
     error,
-    service,
     // isPending,
     // onSubmit,
   };

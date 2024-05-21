@@ -1,4 +1,5 @@
 import AutoForm, { AutoFormSubmit } from "@/components/autoForm/auto-form";
+import { DatePicker } from "@/components/ui/date-picker";
 import { Icons } from "@/components/ui/icons";
 import { Input } from "@/components/ui/input";
 import { ModalDialog } from "@/components/ui/modal-dialog";
@@ -7,7 +8,7 @@ import { useUncontrolled } from "@/hooks/core/use-uncontrolled.hook";
 import useCustomMutation from "@/hooks/core/useCustomMutation.hook";
 import { cn } from "@/lib/utils";
 import { DateUtils } from "@/utils/date.utils";
-import { ReactNode, useState } from "react";
+import { ReactNode, useCallback, useState } from "react";
 import { z } from "zod";
 
 interface EventCreateEditFormProps {
@@ -39,6 +40,16 @@ const EventCreateEditForm = ({
   const [participates, setParticipates] = useState<string[]>(
     isEdit ? data?.participates : []
   );
+  const [dateRange, setDateRange] = useState({
+    start_time: new Date(data?.start_time),
+    end_time: new Date(data?.end_time),
+  });
+  const handleDateRange = useCallback(
+    (key: "start_time" | "end_time", value: Date) => {
+      setDateRange((prev) => ({ ...dateRange, [key]: value }));
+    },
+    [dateRange]
+  );
 
   const { onSubmit, isPending } = useCustomMutation({
     endPoint: isEdit ? `events/${data?.id}` : "events",
@@ -68,20 +79,32 @@ const EventCreateEditForm = ({
           title: "",
           ...data,
         }}
-        onSubmit={(values) =>
-          isEdit
-            ? onSubmit({
-                ...data,
-                participates,
-                ...values,
-              })
-            : onSubmit({
-                ...values,
-                start_time: startTime,
-                end_time: endTime,
-                participates,
-              })
-        }
+        onSubmit={(values) => {
+          if (isEdit) {
+            if (
+              dateRange?.start_time?.getTime() > dateRange?.end_time?.getTime()
+            )
+              return toast({
+                title: "Error",
+                description: "End time must be greater than start time",
+                variant: "destructive",
+              });
+            return onSubmit({
+              ...data,
+              participates,
+              ...values,
+              start_time: dateRange?.start_time,
+              end_time: dateRange?.end_time,
+            });
+          }
+
+          onSubmit({
+            ...values,
+            start_time: startTime,
+            end_time: endTime,
+            participates,
+          });
+        }}
         fieldConfig={{
           title: {
             inputProps: {
@@ -123,6 +146,22 @@ const EventCreateEditForm = ({
               })}
             /> */}
           </div>
+          {isEdit && (
+            <div className="grid grid-cols-2 gap-2">
+              <DatePicker
+                date={dateRange?.start_time as Date}
+                setDate={(value) => {
+                  handleDateRange("start_time", value as Date);
+                }}
+              />
+              <DatePicker
+                date={dateRange?.end_time as Date}
+                setDate={(value) => {
+                  handleDateRange("end_time", value as Date);
+                }}
+              />
+            </div>
+          )}
           <div className="flex items-center text-sm text-muted-foreground gap-2">
             <Icons.clock className="h-4 w-4" />
             <div className="flex gap-2">

@@ -39,6 +39,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   useQuery({
     queryKey: ["refreshToken"],
+    refetchOnWindowFocus: false,
     queryFn: async () => {
       try {
         const service = new ApiService("auth/refresh");
@@ -55,7 +56,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         handleLogout();
       }
     },
-    refetchInterval: 3 * 1000 * 60,
+    refetchInterval: 0.5 * 1000 * 60,
     enabled: !!localSession?.refreshToken,
   });
   const {
@@ -70,6 +71,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       return response?.data as UserType;
     },
     enabled: !!localSession?.accessToken,
+    refetchOnWindowFocus: false,
   });
 
   // AuthStorageUtils.getRefreshToken()
@@ -97,8 +99,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     router.push("/login");
   }, [localSession?.accessToken, router, setSession]);
   useEffect(() => {
-    if (!session) handleLogout();
-  }, [handleLogout, session]);
+    if (!localSession?.refreshToken) handleLogout();
+  }, [handleLogout, localSession]);
   const isAuthorId = useCallback(
     (userId: string) => userId === user?.id,
     [user?.id]
