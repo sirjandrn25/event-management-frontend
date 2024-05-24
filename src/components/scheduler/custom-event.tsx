@@ -81,6 +81,10 @@ const CustomEvent = ({ event }: { event: any }) => {
       });
       refetch?.();
       modalRef?.current?.onClose();
+      setEditTime({
+        start: getTimeFormat(event?.start),
+        end: getTimeFormat(event?.end),
+      });
     },
   });
   const handleEditTime = useCallback(
