@@ -73,6 +73,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     enabled: !!localSession?.accessToken,
     refetchOnWindowFocus: false,
   });
+  useEffect(() => {
+    if (!user) return;
+    if (!user?.isVerifiedEmail)
+      return router.push(`/verify-email?email=${user?.email}`);
+  }, [router, user, user?.email, user?.isVerifiedEmail]);
 
   // AuthStorageUtils.getRefreshToken()
 
@@ -98,9 +103,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setLocalSession(null);
     router.push("/login");
   }, [localSession?.accessToken, router, setSession]);
-  useEffect(() => {
-    if (!localSession?.refreshToken) handleLogout();
-  }, [handleLogout, localSession]);
+
   const isAuthorId = useCallback(
     (userId: string) => userId === user?.id,
     [user?.id]

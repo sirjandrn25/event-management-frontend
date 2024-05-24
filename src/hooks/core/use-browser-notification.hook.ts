@@ -19,6 +19,7 @@ const useBrowserNotification = () => {
 
   const onSendNotification = useCallback(
     (message: string) => {
+      console.log("permission", permission);
       if (permission === "granted") {
         new Notification("Calendar Notifications", {
           icon: "https://cdn-icons-png.flaticon.com/512/733/733585.png",

@@ -26,7 +26,6 @@ export const SchedulerProvider = ({ children }: { children: ReactNode }) => {
     if (!user?.id) return;
     socket.on(`scheduler-event`, (data) => {
       const event = data;
-
       if (!event) return;
       try {
         if (

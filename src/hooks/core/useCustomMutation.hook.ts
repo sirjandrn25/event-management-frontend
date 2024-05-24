@@ -8,6 +8,7 @@ interface UseCustomMutationProps<TData> {
   schema: ZodTypeAny;
   method?: "post" | "put";
   onSuccess?: (data: TData) => void;
+  onError?: (message: string) => void;
   isLoggedIn?: boolean; // for next auth
 }
 interface UseCustomMutationPropsReturnType<TBody, TData> {
@@ -22,6 +23,7 @@ const useCustomMutation = <TData>({
   schema,
   method = "post",
   onSuccess,
+  onError,
   isLoggedIn = true,
 }: UseCustomMutationProps<TData>): UseCustomMutationPropsReturnType<
   z.infer<typeof schema>,
@@ -41,6 +43,9 @@ const useCustomMutation = <TData>({
     },
     onSuccess(data: APIResponse<TData>) {
       onSuccess?.(data.data as TData);
+    },
+    onError: (data: any) => {
+      onError?.(data?.response?.data?.message);
     },
   });
   return {

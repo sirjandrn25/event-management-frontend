@@ -5,6 +5,6 @@ export type UserType = {
   image?: string;
   name: string;
   role: string;
-  verified: boolean;
+  isVerifiedEmail: string;
   default_address_id?: string;
 };
