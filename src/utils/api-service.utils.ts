@@ -14,9 +14,10 @@ export const getAuthorizationHeader = () => {
 
 export const getClientHostName = () => {
   const localhost = `http://localhost:8000`;
-  if (typeof window === "undefined") return localhost;
-  if (process.env.NODE_ENV === "development") return localhost;
-  return "http://ec2-18-234-87-119.compute-1.amazonaws.com/docs";
+  return localhost;
+  // if (typeof window === "undefined") return localhost;
+  // if (process.env.NODE_ENV === "development") return localhost;
+  // return "http://ec2-18-234-87-119.compute-1.amazonaws.com/docs";
 };
 
 const apiRoute = `${getClientHostName()}/v1/api`;
