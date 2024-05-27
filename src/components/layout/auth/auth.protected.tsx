@@ -15,7 +15,7 @@ const AuthProtected = ({ children }: { children: ReactNode }) => {
     if (isLoading) return;
     if (!isLoggedIn) handleLogout();
   }, [handleLogout, isLoading, isLoggedIn]);
-  if (!isClient) return <></>;
+  if (!isClient) return <>{children}</>;
   if (isLoading)
     return (
       <div className="h-screen w-screen flex items-center justify-center">
