@@ -15,17 +15,6 @@ export default function RestrictedPage({
   const navigation = useRouter();
   return (
     <div className="flex h-screen w-full flex-col items-center justify-center bg-background px-4 text-center">
-      {/* <img
-        alt="Error Illustration"
-        className="mb-8"
-        height="300"
-        src="/placeholder.svg"
-        style={{
-          aspectRatio: "600/300",
-          objectFit: "cover",
-        }}
-        width="600"
-      /> */}
       <h1 className="text-6xl font-bold text-gray-800">
         {title || "We are Sorry..."}
       </h1>

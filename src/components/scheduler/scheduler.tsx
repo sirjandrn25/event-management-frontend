@@ -3,9 +3,9 @@
 import EventCreateEditForm from "@/components/forms/event/event-create-edit.form";
 import { Button } from "@/components/ui/button";
 import { SelectBox } from "@/components/ui/selectBox/select-box";
-import { addMonths } from "date-fns";
+import { addDays, addMonths, addWeeks } from "date-fns";
 import moment from "moment";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { DatePicker } from "../ui/date-picker";
@@ -57,6 +57,25 @@ const Scheduler = () => {
     setCurrentDate(new Date());
   };
 
+  const handleDateChange = useCallback(
+    async (amount: number) => {
+      let date = currentDate;
+      switch (currentView) {
+        case "month":
+          date = addMonths(date, amount);
+          break;
+        case "week":
+          date = addWeeks(date, amount);
+          break;
+        case "day":
+          date = addDays(date, amount);
+          break;
+      }
+      setCurrentDate(date);
+    },
+    [currentDate, currentView]
+  );
+
   return (
     <>
       {" "}
@@ -100,14 +119,16 @@ const Scheduler = () => {
                   <Button
                     variant={"outline"}
                     size={"icon"}
-                    onClick={() => setCurrentDate(addMonths(currentDate, -1))}
+                    onClick={() => {
+                      handleDateChange(-1);
+                    }}
                   >
                     <Icons.chevronLeft className="h-4 w-4" />
                   </Button>
                   <Button
                     variant={"outline"}
                     size={"icon"}
-                    onClick={() => setCurrentDate(addMonths(currentDate, 1))}
+                    onClick={() => handleDateChange(1)}
                   >
                     <Icons.chevronRight className="h-4 w-4" />
                   </Button>

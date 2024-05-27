@@ -1,12 +1,11 @@
 import AutoForm, { AutoFormSubmit } from "@/components/autoForm/auto-form";
 import { DatePicker } from "@/components/ui/date-picker";
 import { Icons } from "@/components/ui/icons";
-import { Input } from "@/components/ui/input";
 import { ModalDialog } from "@/components/ui/modal-dialog";
+import { TagInput } from "@/components/ui/tag-input";
 import { toast } from "@/hooks/core/use-toast";
-import { useUncontrolled } from "@/hooks/core/use-uncontrolled.hook";
 import useCustomMutation from "@/hooks/core/useCustomMutation.hook";
-import { cn } from "@/lib/utils";
+import useQueryList from "@/hooks/core/useQueryList.hook";
 import { DateUtils } from "@/utils/date.utils";
 import { ReactNode, useCallback, useState } from "react";
 import { z } from "zod";
@@ -40,6 +39,9 @@ const EventCreateEditForm = ({
   const [participates, setParticipates] = useState<string[]>(
     isEdit ? data?.participates : []
   );
+  const { data: users = [] } = useQueryList({
+    endPoint: "users",
+  });
   const [dateRange, setDateRange] = useState({
     start_time: new Date(data?.start_time),
     end_time: new Date(data?.end_time),
@@ -136,15 +138,12 @@ const EventCreateEditForm = ({
         <div className="grid gap-2">
           <div className="grid gap-1">
             <div className=" text-sm">Participates</div>
-            <TagInput tags={participates} setTags={setParticipates} isEmail />
-            {/* <MultiSelectBox
-              options={ParseToSelectBoxOption({
-                data: filteredUsers ?? [],
-                valueKey: "id",
-                labelKey: "name",
-                subLabelKey: "email",
-              })}
-            /> */}
+            <TagInput
+              tags={participates}
+              options={users?.map((user: any) => user?.email)}
+              setTags={setParticipates}
+              isEmail
+            />
           </div>
           {isEdit && (
             <div className="grid grid-cols-2 gap-2">
@@ -179,100 +178,6 @@ const EventCreateEditForm = ({
         </AutoFormSubmit>
       </AutoForm>
     </ModalDialog>
-  );
-};
-export enum Delimiter {
-  Comma = ",",
-  Enter = "Enter",
-}
-
-interface TagInputProps {
-  tags?: string[];
-  setTags?: (value: string[]) => void;
-  className?: string;
-  delimiter?: Delimiter;
-  delimiterList?: string[];
-  isEmail?: boolean;
-}
-function isValidEmail(email: string) {
-  const emailRegex = /^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$/;
-  return emailRegex.test(email);
-}
-
-const TagInput = ({
-  tags,
-  setTags,
-  className,
-  delimiter = Delimiter.Comma,
-  delimiterList,
-  isEmail,
-}: TagInputProps) => {
-  const [value, onChange] = useUncontrolled({
-    value: tags,
-    onChange: setTags,
-    defaultValue: [],
-  });
-  const [inputValue, setInputValue] = useState<string>("");
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (
-      delimiterList
-        ? delimiterList.includes(e.key)
-        : e.key === delimiter || e.key === Delimiter.Enter
-    ) {
-      e.preventDefault();
-      const newTagText = inputValue.trim();
-      if (isEmail) {
-        if (isValidEmail(newTagText)) {
-          setInputValue("");
-          onChange([...value, newTagText]);
-          return;
-        }
-        return toast({
-          title: "Valid Email Needed",
-          variant: "destructive",
-        });
-      }
-      onChange([...value, newTagText]);
-      // Check if the tag is in the autocomplete options if restrictTagsToAutocomplete is true
-    }
-  };
-
-  return (
-    <div className={cn("grid gap-2", className)}>
-      <Input
-        type="text"
-        placeholder={`Separate by ${delimiter} `}
-        onKeyDown={handleKeyDown}
-        value={inputValue}
-        onChange={(e) => {
-          setInputValue(e.target.value);
-        }}
-      />
-      <div className="flex gap-2">
-        {tags?.map((tag) => (
-          <TagBadge
-            key={tag}
-            tag={tag}
-            onClick={() => onChange(value?.filter((value) => value !== tag))}
-          />
-        ))}
-      </div>
-    </div>
-  );
-};
-
-interface TagBadgeProps {
-  tag: string;
-  onClick?: () => void;
-}
-const TagBadge = ({ tag, onClick }: TagBadgeProps) => {
-  return (
-    <div
-      onClick={onClick}
-      className="text-xs cursor-pointer hover:border-destructive hover:text-destructive hover:strike flex items-center bg-muted rounded text-default border py-1 px-2"
-    >
-      {tag}
-    </div>
   );
 };
 
